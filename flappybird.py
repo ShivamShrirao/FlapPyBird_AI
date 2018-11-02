@@ -7,13 +7,14 @@ import random
 import nnet
 from copy import deepcopy
 
+
 SCR_HEIGHT = 600
 SCR_WIDTH  = 600
 SHW_PR_BST = True
-GRAVITY    = 7
+GRAVITY    = 10
 G_ACC	   = 0.1
 WALL_SPEED = 5
-W_ACC	   = 0
+W_ACC	   = 0.01
 B_POS	   = 50
 N_OF_BIRDS = 40
 FPS		   = 60
@@ -36,7 +37,7 @@ class Bird_model:
 		self.d_top = 100
 		self.d_bottom = 100
 		self.par = 0
-		self.nn = nnet.neural_net(n_inputs=6,nrons=20,n_outputs=1)
+		self.nn = nnet.neural_net(n_inputs=8,nrons=30,n_outputs=1)
 	
 	def __str__(self):
 		return str(self.__dict__)
@@ -45,12 +46,12 @@ class Bird_model:
 		return self.__dict__ == other.__dict__
 
 	def flap(self):
-		self.jumpTime = 20
+		self.jumpTime = 15
 		self.gravity = GRAVITY
 		self.jumpSpeed = 12				#how much to jump
 
 	def think(self):
-		if self.nn.think([self.d_x_srt, self.d_x_end, self.birdY, self.d_y, self.d_top, self.d_bottom]) > 0.5:
+		if self.nn.think([self.d_x_srt, self.d_x_end, (self.d_x_srt+400), self.birdY, (SCR_HEIGHT-self.birdY), self.d_y, self.d_top, self.d_bottom]) > 0.5:
 			self.flap()
 
 class FlappyBird:
@@ -70,7 +71,7 @@ class FlappyBird:
 				if vals[3]==255:
 					self.pre_champ.set_at((i,j),(255-vals[0], 255-vals[1], 255-vals[2], 255))
 		self.pointer = pygame.image.load("assets/pointer.png").convert_alpha()
-		self.gap = 160
+		self.gap = 130
 		self.wallx = 400
 		self.wall2x = self.wallx+400
 		self.offset = random.randint(0,200)

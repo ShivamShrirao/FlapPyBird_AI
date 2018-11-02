@@ -11,12 +11,12 @@ from copy import deepcopy
 SCR_HEIGHT = 600
 SCR_WIDTH  = 600
 SHW_PR_BST = True
-GRAVITY    = 7
+GRAVITY    = 10
 G_ACC	   = 0.1
 WALL_SPEED = 5
 W_ACC	   = 0.01
 B_POS	   = 50
-N_OF_BIRDS = 20
+N_OF_BIRDS = 40
 FPS		   = 60
 AI 		   = True
 
@@ -46,7 +46,7 @@ class Bird_model:
 		return self.__dict__ == other.__dict__
 
 	def flap(self):
-		self.jumpTime = 20
+		self.jumpTime = 15
 		self.gravity = GRAVITY
 		self.jumpSpeed = 12				#how much to jump
 
@@ -65,13 +65,7 @@ class FlappyBird:
 		self.wallDown = pygame.image.load("assets/bottom.png").convert_alpha()
 		self.wallUp = pygame.image.load("assets/top.png").convert_alpha()
 		self.pre_champ = pygame.image.load("assets/1.png").convert_alpha()
-		for i in range(self.pre_champ.get_width()):
-			for j in range(self.pre_champ.get_height()):
-				vals=self.pre_champ.get_at((i,j))
-				if vals[3]==255:
-					self.pre_champ.set_at((i,j),(255-vals[0], 255-vals[1], 255-vals[2], 255))
-		self.pointer = pygame.image.load("assets/pointer.png").convert_alpha()
-		self.gap = 160
+		self.gap = 130
 		self.wallx = 400
 		self.wall2x = self.wallx+400
 		self.offset = random.randint(0,200)
@@ -302,16 +296,8 @@ class FlappyBird:
 						brd.sprite = 1
 				else:
 					brd.sprite = 2
-				if (brd == self.pre_best) and SHW_PR_BST:
-					print("bfeufb")
-					self.screen.blit(self.pre_champ,(B_POS, brd.birdY))
-				else:
-					self.screen.blit(self.birdSprites[brd.sprite], (B_POS, brd.birdY))
+				self.screen.blit(self.birdSprites[brd.sprite], (B_POS, brd.birdY))
 
-			self.p1=self.wallUp.get_height()-self.gap/2-self.offset+5
-			self.p2=self.wallUp.get_height()-self.gap/2-self.offset2+5
-			self.screen.blit(self.pointer, (self.wallx+self.wallDown.get_width()/2, self.p1))
-			self.screen.blit(self.pointer, (self.wall2x+self.wallDown.get_width()/2, self.p2))
 			self.updateWalls()
 			self.birdUpdate()
 			pygame.display.update()
