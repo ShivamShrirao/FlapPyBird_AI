@@ -51,7 +51,14 @@ class Bird_model:
 		self.jumpSpeed = 12				#how much to jump
 
 	def think(self):
-		if self.nn.think([self.d_x_srt, self.d_x_end, (self.d_x_srt+400), self.birdY, (SCR_HEIGHT-self.birdY), self.d_y, self.d_top, self.d_bottom]) > 0.5:
+		if self.nn.think([self.d_x_srt,
+						self.d_x_end,
+						(self.d_x_srt+400),
+						self.birdY,
+						(SCR_HEIGHT-self.birdY),
+						self.d_y,
+						self.d_top,
+						self.d_bottom]) > 0.5:
 			self.flap()
 
 class FlappyBird:
@@ -153,17 +160,11 @@ class FlappyBird:
 
 		self.birds.sort(key=lambda x: x.fitness_score, reverse=True)
 
-		al_ded=True
-		for brd in self.birds:				#check all birds for death
-			if not brd.dead:
-				al_ded=False
-				break
-
 		if self.birds[0].fitness_score>self.high_scr:
 					self.pre_best = deepcopy(self.birds[0])
 					self.high_scr = self.birds[0].fitness_score
 
-		if al_ded:
+		if not self.alive_count:
 			if (not self.last.bird[1]<SCR_HEIGHT+10):
 				print("Points:",self.last.points)
 				self.pre_gen_scr=self.birds[0].fitness_score
