@@ -257,7 +257,7 @@ class FlappyBird:
 										-1,
 										(255, 255, 255)),
 							(SCR_WIDTH/3, 50))
-			self.screen.blit(font.render("Best Fit Score: "+str(self.high_scr)[:5],
+			self.screen.blit(font.render("High Fit Score: "+str(self.high_scr)[:5],
 										-1,
 										(255, 255, 255)),
 							(SCR_WIDTH/3, 80))
