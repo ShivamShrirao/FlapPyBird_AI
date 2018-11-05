@@ -4,4 +4,7 @@ The base game code was taken from https://github.com/f-prime/FlappyBird of just 
 
 Acceleration of pipes and gravity can be changed easily.
 
-![Alt text](/screenshot.png?raw=true "Optional Title")
+In non accelerating pipes a perfect fit can cross over 4500 pipes and still not die.
+![4000 pipes](/screenshot.png?raw=true "Crossed 4000 pipes")
+
+In accelerating pipes it mostly just dies cause it is physically impossible for it to reach next gap in time.
