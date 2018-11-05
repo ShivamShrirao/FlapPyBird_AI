@@ -51,7 +51,14 @@ class Bird_model:
 		self.jumpSpeed = 12				#how much to jump
 
 	def think(self):
-		if self.nn.think([self.d_x_srt, self.d_x_end, (self.d_x_srt+400), self.birdY, (SCR_HEIGHT-self.birdY), self.d_y, self.d_top, self.d_bottom]) > 0.5:
+		if self.nn.think([self.d_x_srt,
+						self.d_x_end,
+						(self.d_x_srt+400),
+						self.birdY,
+						(SCR_HEIGHT-self.birdY),
+						self.d_y,
+						self.d_top,
+						self.d_bottom]) > 0.5:
 			self.flap()
 
 class FlappyBird:
@@ -65,12 +72,6 @@ class FlappyBird:
 		self.wallDown = pygame.image.load("assets/bottom.png").convert_alpha()
 		self.wallUp = pygame.image.load("assets/top.png").convert_alpha()
 		self.pre_champ = pygame.image.load("assets/1.png").convert_alpha()
-		for i in range(self.pre_champ.get_width()):
-			for j in range(self.pre_champ.get_height()):
-				vals=self.pre_champ.get_at((i,j))
-				if vals[3]==255:
-					self.pre_champ.set_at((i,j),(255-vals[0], 255-vals[1], 255-vals[2], 255))
-		self.pointer = pygame.image.load("assets/pointer.png").convert_alpha()
 		self.gap = 130
 		self.wallx = 400
 		self.wall2x = self.wallx+400
@@ -159,17 +160,11 @@ class FlappyBird:
 
 		self.birds.sort(key=lambda x: x.fitness_score, reverse=True)
 
-		al_ded=True
-		for brd in self.birds:				#check all birds for death
-			if not brd.dead:
-				al_ded=False
-				break
-
 		if self.birds[0].fitness_score>self.high_scr:
 					self.pre_best = deepcopy(self.birds[0])
 					self.high_scr = self.birds[0].fitness_score
 
-		if al_ded:
+		if not self.alive_count:
 			if (not self.last.bird[1]<SCR_HEIGHT+10):
 				print("Points:",self.last.points)
 				self.pre_gen_scr=self.birds[0].fitness_score
@@ -262,7 +257,7 @@ class FlappyBird:
 										-1,
 										(255, 255, 255)),
 							(SCR_WIDTH/3, 50))
-			self.screen.blit(font.render("Best Fit Score: "+str(self.high_scr)[:5],
+			self.screen.blit(font.render("High Fit Score: "+str(self.high_scr)[:5],
 										-1,
 										(255, 255, 255)),
 							(SCR_WIDTH/3, 80))
@@ -302,16 +297,8 @@ class FlappyBird:
 						brd.sprite = 1
 				else:
 					brd.sprite = 2
-				if (brd == self.pre_best) and SHW_PR_BST:
-					print("bfeufb")
-					self.screen.blit(self.pre_champ,(B_POS, brd.birdY))
-				else:
-					self.screen.blit(self.birdSprites[brd.sprite], (B_POS, brd.birdY))
+				self.screen.blit(self.birdSprites[brd.sprite], (B_POS, brd.birdY))
 
-			self.p1=self.wallUp.get_height()-self.gap/2-self.offset+5
-			self.p2=self.wallUp.get_height()-self.gap/2-self.offset2+5
-			self.screen.blit(self.pointer, (self.wallx+self.wallDown.get_width()/2, self.p1))
-			self.screen.blit(self.pointer, (self.wall2x+self.wallDown.get_width()/2, self.p2))
 			self.updateWalls()
 			self.birdUpdate()
 			pygame.display.update()
