@@ -53,7 +53,7 @@ class Bird_model:
 	def think(self):
 		if self.nn.think([self.d_x_srt,
 						self.d_x_end,
-						(self.d_x_srt+400),
+						(self.d_x_srt+400),	#I know right
 						self.birdY,
 						(SCR_HEIGHT-self.birdY),
 						self.d_y,
