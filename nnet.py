@@ -17,11 +17,11 @@ class neural_net:
 		return str(self.__dict__)
 
 	def gen_w8s(self):
-		self.w1	= 2*np.random.rand(self.n_inputs,self.nrons)-1
-		self.w2	= 2*np.random.rand(self.n_outputs,self.nrons)-1
+		self.w1	= 0.1*np.random.randn(self.n_inputs,self.nrons)
+		self.w2	= 0.1*np.random.randn(self.n_outputs,self.nrons)
 	def gen_bias(self):
-		self.b1	= 2*np.random.rand(self.n_outputs,self.nrons)-1
-		self.b2	= 2*np.random.rand()-1
+		self.b1	= 0.1*np.random.randn(self.n_outputs,self.nrons)
+		self.b2	= 0.1*np.random.randn()
 
 	def sigmoid(self,x):
 		return 1.0/(1+ np.exp(-x))
