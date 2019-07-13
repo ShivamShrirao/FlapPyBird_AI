@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 
-sd=np.random.randint(500)
+sd=394#np.random.randint(500)
 print(sd)
 np.random.seed(sd)
 
