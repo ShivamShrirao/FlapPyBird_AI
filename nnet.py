@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 
-sd=394#np.random.randint(500)
+sd=394#np.random.randint(500)	# 394
 print(sd)
 np.random.seed(sd)
 
@@ -17,21 +17,22 @@ class neural_net:
 		return str(self.__dict__)
 
 	def gen_w8s(self):
-		self.w1	= 0.1*np.random.randn(self.n_inputs,self.nrons)
-		self.w2	= 0.1*np.random.randn(self.n_outputs,self.nrons)
+		self.w1	= 0.1*np.random.randn(self.n_inputs,self.nrons).astype(np.float32)		# (8,30)
+		self.w2	= 0.1*np.random.randn(self.nrons,self.n_outputs).astype(np.float32)		# (30,1)
 	def gen_bias(self):
-		self.b1	= 0.1*np.random.randn(self.n_outputs,self.nrons)
-		self.b2	= 0.1*np.random.randn()
+		self.b1	= 0.1*np.random.randn(1,self.nrons).astype(np.float32)
+		self.b2	= 0.1*np.random.randn(1,1).astype(np.float32)
 
 	def sigmoid(self,x):
-		return 1.0/(1+ np.exp(-x))
+		return 1.0/(1+np.exp(-x))
 
-	def think(self, X):			# X = [i1, i2, i3, i4, i5]
-		X = np.array(X)
-		X_norm = (X-X.mean())/X.std()	# This shit rocks
-		# print(X_norm)
-		z = (np.dot(X_norm,self.w1)+self.b1)
-		# z = np.tanh(z)
-		a = np.dot(z,self.w2.T)+self.b2
-		return self.sigmoid(a)
+	def think(self, X):
+		X = np.array(X,dtype=np.float32)					# (1,8)
+		self.X_norm = (X-X.mean())/X.std()	# This shit rocks
+		# print(self.X_norm.shape)
+		self.z = (np.dot(self.X_norm,self.w1)+self.b1)	# (1,30)
+		# self.z = self.sigmoid(self.z)
+		a = np.dot(self.z,self.w2)+self.b2
+		self.out=self.sigmoid(a)
+		return self.out
 		# return max(0,a)

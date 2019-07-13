@@ -6,6 +6,7 @@ import sys
 import random
 import nnet
 from copy import deepcopy
+import numpy as np
 
 
 SCR_HEIGHT = 600
@@ -223,6 +224,69 @@ class FlappyBird:
 			self.birds[i].nn.gen_bias()
 			self.birds[i].nn.gen_w8s()
 
+	def show_network(self):
+		strtx,strty=300,250
+		first=[]
+		for inp in range(8):
+			wd=self.birds[0].nn.X_norm[inp]
+			if wd>0:
+				color=(255, 57, 43)
+			else:
+				color=(52, 152, 219)
+			wd=np.clip(abs(wd)*8,0,10)
+			rect=pygame.Rect(strtx,strty+inp*30,0,0)
+			center=rect.center
+			ret=pygame.draw.circle(self.screen,color,center,int(wd))
+			first.append(center)
+
+		strtx,strty=450,120
+		second=[]
+		for inp in range(30):
+			wd=self.birds[0].nn.z[0,inp]
+			if wd>0:
+				color=(255, 57, 43)
+			else:
+				color=(52, 152, 219)
+			wd=np.clip(abs(wd)*18,0,9)
+			rect=pygame.Rect(strtx,strty+inp*16,0,0)
+			center=rect.center
+			ret=pygame.draw.circle(self.screen,color,center,int(wd))
+			second.append(ret.center)
+
+		strtx,strty=570,330
+		third=[]
+		for inp in range(1):
+			wd=self.birds[0].nn.out[0,inp]
+			if wd>0.5:
+				color=(255, 57, 43)
+			else:
+				color=(52, 152, 219)
+				wd=wd*20
+			rect=pygame.Rect(strtx,strty+inp*40,0,0)
+			center=rect.center
+			ret=pygame.draw.circle(self.screen,color,center,int(wd))
+			third.append(ret.center)
+
+		for indi,i in enumerate(first):
+			for indj,j in enumerate(second):
+				wd=self.birds[0].nn.w1[indi,indj]
+				if wd>0:
+					color=(255, 10, 10)
+				else:
+					color=(52, 152, 219)
+				wd=abs(wd)
+				pygame.draw.line(self.screen,color,i,j,int(wd*7))
+
+		for indi,i in enumerate(second):
+			for indj,j in enumerate(third):
+				wd=self.birds[0].nn.w2[indi,indj]
+				if wd>0:
+					color=(255, 10, 10)
+				else:
+					color=(52, 152, 219)
+				wd=abs(wd)
+				pygame.draw.line(self.screen,color,i,j,int(wd*10))
+
 	def run(self):
 		clock = pygame.time.Clock()
 		pygame.font.init()
@@ -301,6 +365,7 @@ class FlappyBird:
 
 			self.updateWalls()
 			self.birdUpdate()
+			self.show_network()
 			pygame.display.update()
 
 if __name__ == "__main__":
