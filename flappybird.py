@@ -15,7 +15,7 @@ SHW_PR_BST = True
 GRAVITY    = 10
 G_ACC	   = 0.1
 WALL_SPEED = 5
-W_ACC	   = 0.01
+W_ACC	   = 0.02
 B_POS	   = 50
 N_OF_BIRDS = 40
 FPS		   = 60
@@ -99,7 +99,7 @@ class FlappyBird:
 				if not brd.dead:
 					brd.points += 1
 					brd.fitness_score+=5				# reward for points
-					self.w_speed+=W_ACC					# wall acceleration
+			self.w_speed+=W_ACC					# wall acceleration
 			self.offset = random.randint(20,200)
 
 		elif self.wall2x < -self.wallUp.get_width():
@@ -108,7 +108,7 @@ class FlappyBird:
 				if not brd.dead:
 					brd.points += 1
 					brd.fitness_score+=5				# reward for points
-					self.w_speed+=W_ACC					# wall acceleration
+			self.w_speed+=W_ACC					# wall acceleration
 			self.offset2 = random.randint(0,200)
 
 	def birdUpdate(self):
@@ -261,7 +261,7 @@ class FlappyBird:
 				color=(255, 57, 43)
 			else:
 				color=(52, 152, 219)
-				wd=wd*20
+			wd=wd*20
 			rect=pygame.Rect(strtx,strty+inp*40,0,0)
 			center=rect.center
 			ret=pygame.draw.circle(self.screen,color,center,int(wd))
