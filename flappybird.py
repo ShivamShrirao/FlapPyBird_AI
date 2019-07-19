@@ -234,8 +234,7 @@ class FlappyBird:
 			else:
 				color=(52, 152, 219)
 			wd=np.clip(abs(wd)*8,0,10)
-			rect=pygame.Rect(strtx,strty+inp*30,0,0)
-			center=rect.center
+			center=(strtx,strty+inp*30)
 			ret=pygame.draw.circle(self.screen,color,center,int(wd))
 			first.append(center)
 
@@ -248,10 +247,9 @@ class FlappyBird:
 			else:
 				color=(52, 152, 219)
 			wd=np.clip(abs(wd)*18,0,9)
-			rect=pygame.Rect(strtx,strty+inp*16,0,0)
-			center=rect.center
+			center=(strtx,strty+inp*16)
 			ret=pygame.draw.circle(self.screen,color,center,int(wd))
-			second.append(ret.center)
+			second.append(center)
 
 		strtx,strty=570,330
 		third=[]
@@ -262,10 +260,9 @@ class FlappyBird:
 			else:
 				color=(52, 152, 219)
 			wd=wd*20
-			rect=pygame.Rect(strtx,strty+inp*40,0,0)
-			center=rect.center
+			center=(strtx,strty+inp*40)
 			ret=pygame.draw.circle(self.screen,color,center,int(wd))
-			third.append(ret.center)
+			third.append(center)
 
 		for indi,i in enumerate(first):
 			for indj,j in enumerate(second):
